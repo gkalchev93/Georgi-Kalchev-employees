@@ -1,12 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Employees.Core.Model
 {
     public class TeamWork
     {
+        [Browsable(false)]
         public int Emp1Id { get; set; }
+        [Browsable(false)]
         public int Emp2Id { get; set; }
+        [DisplayName("Team")]
         public string TeamKey { get; set; }
+        [DisplayName("Total Days")]
         public int TotalDays
         {
             get
@@ -15,6 +20,7 @@ namespace Employees.Core.Model
             }
         }
         public List<Work> WorkTogether { get; set; }
+
 
         public TeamWork(int empID1, int empID2)
         {
