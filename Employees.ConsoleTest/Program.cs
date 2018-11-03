@@ -10,7 +10,7 @@ namespace Employees.ConsoleTest
     {
         static void Main(string[] args)
         {
-            string filePath = "test";
+            string filePath = "..//..//testData";
 
             //Console.WriteLine("Filepath or file name, if it is in the application folder:");
             //do
