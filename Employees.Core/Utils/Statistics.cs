@@ -66,7 +66,7 @@ namespace Employees.Core.Utils
                 throw new Exception(string.Format(Constants.InvalidIntervalMsg, empExp2.EmpID, empExp2.ProjectID));
             }
 
-            if (empExp1.DateFrom == empExp2.DateFrom && empExp1.DateTo == empExp1.DateTo)
+            if (empExp1.DateFrom == empExp2.DateFrom && empExp1.DateTo == empExp2.DateTo)
             {
                 work.DateFrom = empExp1.DateFrom;
                 work.DateTo = empExp1.DateTo;
