@@ -3,6 +3,7 @@ using Employees.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace Employees.ConsoleTest
 {
@@ -35,6 +36,8 @@ namespace Employees.ConsoleTest
 
                     Console.WriteLine();
                 }
+
+                Console.WriteLine("Max days is team:" + teamWork.Max(x=>x.Value.GetTotalDays()));
             }
 
             Console.ReadLine();
