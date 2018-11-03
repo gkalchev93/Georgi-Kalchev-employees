@@ -6,9 +6,9 @@ namespace Employees.Core.Utils
 {
     public static class Statistics
     {
-        public static Dictionary<Tuple<int, int>, int> GetTeamWorkDurations(List<EmployeeExp> employeeExps)
+        public static Dictionary<Tuple<int, int>, TeamWork> GetTeamWorkPeriods(List<EmployeeExp> employeeExps)
         {
-            Dictionary<Tuple<int, int>, int> result = new Dictionary<Tuple<int, int>, int>();
+            Dictionary<Tuple<int, int>, TeamWork> result = new Dictionary<Tuple<int, int>, TeamWork>();
 
             for (int i = 0; i < employeeExps.Count; i++)
             {
@@ -16,25 +16,32 @@ namespace Employees.Core.Utils
                 for (int j = i; j < employeeExps.Count; j++)
                 {
                     EmployeeExp empExp2 = employeeExps[j];
-
-                    // Continue, if the experiance is for same person
-                    if (empExp1.EmpID == empExp2.EmpID || empExp1.ProjectID != empExp2.ProjectID)
+                    
+                    if (empExp1.EmpID == empExp2.EmpID)
                     {
+                        // Continue, if the experiance is for same person
+                        continue;
+                    }
+                    else if (empExp1.ProjectID != empExp2.ProjectID)
+                    {
+                        // Continue, if the employee projects are different
                         continue;
                     }
 
-                    int teamWorkDuration = CalculateTeamWork(empExp1, empExp2);
+                    Work work = CalculateTeamWork(empExp1, empExp2);
 
-                    if (teamWorkDuration > 0)
+                    if (work.DateFrom != null)
                     {
-                        Tuple<int, int> teamKey = GetTeamKey(empExp1, empExp2);
-                        if (result.ContainsKey(teamKey))
+                        TeamWork teamWork = new TeamWork(empExp1.EmpID, empExp2.EmpID);
+
+                        if (result.ContainsKey(teamWork.TeamKey))
                         {
-                            result[teamKey] += teamWorkDuration;
+                            result[teamWork.TeamKey].WorkTogether.Add(work);
                         }
                         else
                         {
-                            result.Add(teamKey, teamWorkDuration);
+                            teamWork.WorkTogether.Add(work);
+                            result.Add(teamWork.TeamKey, teamWork);
                         }
                     }
                 }
@@ -43,21 +50,12 @@ namespace Employees.Core.Utils
             return result;
         }
 
-        private static Tuple<int, int> GetTeamKey(EmployeeExp empExp1, EmployeeExp empExp2)
+        private static Work CalculateTeamWork(EmployeeExp empExp1, EmployeeExp empExp2)
         {
-            if (empExp1.EmpID > empExp2.EmpID)
+            Work work = new Work()
             {
-                return new Tuple<int, int>(empExp1.EmpID, empExp2.EmpID);
-            }
-            else
-            {
-                return new Tuple<int, int>(empExp2.EmpID, empExp1.EmpID);
-            }
-        }
-
-        private static int CalculateTeamWork(EmployeeExp empExp1, EmployeeExp empExp2)
-        {
-            int workDuration = 0;
+                ProjectId = empExp1.ProjectID
+            };
 
             if (empExp1.DateFrom > empExp1.DateTo)
             {
@@ -70,37 +68,37 @@ namespace Employees.Core.Utils
 
             if (empExp1.DateFrom == empExp2.DateFrom && empExp1.DateTo == empExp1.DateTo)
             {
-                workDuration = GetDays(empExp1.DateFrom, empExp1.DateTo);
+                work.DateFrom = empExp1.DateFrom;
+                work.DateTo = empExp1.DateTo;
             }
             else if (empExp1.DateFrom <= empExp2.DateFrom)
             {
                 if (empExp1.DateTo >= empExp2.DateTo)
                 {
-                    workDuration = GetDays(empExp2.DateFrom, empExp2.DateTo);
+                    work.DateFrom = empExp2.DateFrom;
+                    work.DateTo = empExp2.DateTo;
                 }
                 else if (empExp1.DateTo < empExp2.DateTo)
                 {
-                    workDuration = GetDays(empExp2.DateFrom, empExp1.DateTo);
+                    work.DateFrom = empExp2.DateFrom;
+                    work.DateTo = empExp1.DateTo;
                 }
             }
             else
             {
                 if (empExp1.DateTo <= empExp2.DateTo)
                 {
-                    workDuration = GetDays(empExp1.DateFrom, empExp1.DateTo);
+                    work.DateFrom = empExp1.DateFrom;
+                    work.DateTo = empExp1.DateTo;
                 }
                 else if (empExp2.DateTo < empExp1.DateTo && empExp2.DateTo > empExp1.DateFrom)
                 {
-                    workDuration = GetDays(empExp1.DateFrom, empExp2.DateTo);
+                    work.DateFrom = empExp1.DateFrom;
+                    work.DateTo = empExp2.DateTo;
                 }
             }
 
-            return workDuration;
-        }
-
-        private static int GetDays(DateTime dateFrom, DateTime dateTo)
-        {
-            return (int)(dateTo - dateFrom).TotalDays;
+            return work;
         }
     }
 }
