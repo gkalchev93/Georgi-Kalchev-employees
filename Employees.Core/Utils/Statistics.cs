@@ -6,9 +6,9 @@ namespace Employees.Core.Utils
 {
     public static class Statistics
     {
-        public static Dictionary<Tuple<int, int>, TeamWork> GetTeamWorkPeriods(List<EmployeeExp> employeeExps)
+        public static Dictionary<string, TeamWork> GetTeamWorkPeriods(List<EmployeeExp> employeeExps)
         {
-            Dictionary<Tuple<int, int>, TeamWork> result = new Dictionary<Tuple<int, int>, TeamWork>();
+            Dictionary<string, TeamWork> result = new Dictionary<string, TeamWork>();
 
             for (int i = 0; i < employeeExps.Count; i++)
             {

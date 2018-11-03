@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Employees.Core.Model
 {
@@ -7,7 +6,7 @@ namespace Employees.Core.Model
     {
         public int Emp1Id { get; set; }
         public int Emp2Id { get; set; }
-        public Tuple<int, int> TeamKey { get; set; }
+        public string TeamKey { get; set; }
         public List<Work> WorkTogether { get; set; }
 
         public TeamWork(int empID1, int empID2)
@@ -18,16 +17,13 @@ namespace Employees.Core.Model
             WorkTogether = new List<Work>();
         }
 
-        private Tuple<int, int> GetTeamKey()
+        private string GetTeamKey()
         {
+            string template = "{0}-{1}";
             if (Emp1Id > Emp2Id)
-            {
-                return new Tuple<int, int>(Emp1Id, Emp2Id);
-            }
+                return string.Format(template, Emp1Id, Emp2Id);
             else
-            {
-                return new Tuple<int, int>(Emp2Id, Emp1Id);
-            }
+                return string.Format(template, Emp2Id, Emp1Id);
         }
 
         public int GetTotalDays()
