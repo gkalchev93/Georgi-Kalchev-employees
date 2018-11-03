@@ -22,7 +22,7 @@ namespace Employees.ConsoleTest
             string[] fileLines = File.ReadAllLines(filePath);
             if (fileLines.Length > 1)
             {
-                List<EmployeeExp> records = Load.ExpFromLines(fileLines);
+                List<EmployeeExp> records = LoadModel.EmpExperianceFromLines(fileLines);
                 Console.WriteLine("Records count:" + records.Count);
                 Console.WriteLine();
 
@@ -37,7 +37,7 @@ namespace Employees.ConsoleTest
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("Max days is team:" + teamWork.Max(x=>x.Value.GetTotalDays()));
+                Console.WriteLine("Max days in team:" + teamWork.Max(x=>x.Value.GetTotalDays()));
             }
 
             Console.ReadLine();

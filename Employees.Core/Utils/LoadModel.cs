@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Employees.Core.Utils
 {
-    public static class Load
+    public static class LoadModel
     {
-        public static List<EmployeeExp> ExpFromLines(string[] lines, char delimiter = ',')
+        public static List<EmployeeExp> EmpExperianceFromLines(string[] lines, char delimiter = ',')
         {
             List<EmployeeExp> retCollection = new List<EmployeeExp>();
 
