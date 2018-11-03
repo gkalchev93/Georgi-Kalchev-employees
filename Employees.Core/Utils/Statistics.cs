@@ -1,14 +1,15 @@
 ﻿using Employees.Core.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Employees.Core.Utils
 {
     public static class Statistics
     {
-        public static Dictionary<string, TeamWork> GetTeamWorkPeriods(List<EmployeeExp> employeeExps)
+        public static List<TeamWork> GetTeamWorkPeriods(List<EmployeeExp> employeeExps)
         {
-            Dictionary<string, TeamWork> result = new Dictionary<string, TeamWork>();
+            List<TeamWork> result = new List<TeamWork>();
 
             for (int i = 0; i < employeeExps.Count; i++)
             {
@@ -16,15 +17,10 @@ namespace Employees.Core.Utils
                 for (int j = i; j < employeeExps.Count; j++)
                 {
                     EmployeeExp empExp2 = employeeExps[j];
-                    
-                    if (empExp1.EmpID == empExp2.EmpID)
+
+                    if (empExp1.EmpID == empExp2.EmpID || empExp1.ProjectID != empExp2.ProjectID)
                     {
-                        // Continue, if the experiance is for same person
-                        continue;
-                    }
-                    else if (empExp1.ProjectID != empExp2.ProjectID)
-                    {
-                        // Continue, if the employee projects are different
+                        // Continue, if the experiance is for same person or the project is differents
                         continue;
                     }
 
@@ -34,14 +30,16 @@ namespace Employees.Core.Utils
                     {
                         TeamWork teamWork = new TeamWork(empExp1.EmpID, empExp2.EmpID);
 
-                        if (result.ContainsKey(teamWork.TeamKey))
+                        if (result.Any(x => x.TeamKey == teamWork.TeamKey))
                         {
-                            result[teamWork.TeamKey].WorkTogether.Add(work);
+                            result
+                                .First(x => x.TeamKey == teamWork.TeamKey)
+                                .WorkTogether.Add(work);
                         }
                         else
                         {
                             teamWork.WorkTogether.Add(work);
-                            result.Add(teamWork.TeamKey, teamWork);
+                            result.Add(teamWork);
                         }
                     }
                 }
@@ -52,11 +50,6 @@ namespace Employees.Core.Utils
 
         private static Work CalculateTeamWork(EmployeeExp empExp1, EmployeeExp empExp2)
         {
-            Work work = new Work()
-            {
-                ProjectId = empExp1.ProjectID
-            };
-
             if (empExp1.DateFrom > empExp1.DateTo)
             {
                 throw new Exception(string.Format(Constants.InvalidIntervalMsg, empExp1.EmpID, empExp1.ProjectID));
@@ -66,39 +59,48 @@ namespace Employees.Core.Utils
                 throw new Exception(string.Format(Constants.InvalidIntervalMsg, empExp2.EmpID, empExp2.ProjectID));
             }
 
-            if (empExp1.DateFrom == empExp2.DateFrom && empExp1.DateTo == empExp2.DateTo)
+            (DateTime, DateTime) dateIntersection =
+                GetDateRangesIntersection(empExp1.DateFrom, empExp1.DateTo, empExp2.DateFrom, empExp2.DateTo);
+
+            return
+                new Work()
+                {
+                    ProjectId = empExp1.ProjectID,
+                    DateFrom = dateIntersection.Item1,
+                    DateTo = dateIntersection.Item2
+                };
+        }
+
+        private static (DateTime, DateTime) GetDateRangesIntersection(DateTime dateFrom1, DateTime dateTo1, DateTime dateFrom2, DateTime dateTo2)
+        {
+            if (dateFrom1 == dateFrom2 && dateTo1 == dateTo2)
             {
-                work.DateFrom = empExp1.DateFrom;
-                work.DateTo = empExp1.DateTo;
+                return (dateFrom1, dateTo1);
             }
-            else if (empExp1.DateFrom <= empExp2.DateFrom)
+            else if (dateFrom1 <= dateFrom2)
             {
-                if (empExp1.DateTo >= empExp2.DateTo)
+                if (dateTo1 >= dateTo2)
                 {
-                    work.DateFrom = empExp2.DateFrom;
-                    work.DateTo = empExp2.DateTo;
+                    return (dateFrom2, dateTo2);
                 }
-                else if (empExp1.DateTo < empExp2.DateTo)
+                else if (dateTo1 < dateTo2)
                 {
-                    work.DateFrom = empExp2.DateFrom;
-                    work.DateTo = empExp1.DateTo;
+                    return (dateFrom2, dateTo1);
                 }
             }
             else
             {
-                if (empExp1.DateTo <= empExp2.DateTo)
+                if (dateTo1 <= dateTo2)
                 {
-                    work.DateFrom = empExp1.DateFrom;
-                    work.DateTo = empExp1.DateTo;
+                    return (dateFrom1, dateTo1);
                 }
-                else if (empExp2.DateTo < empExp1.DateTo && empExp2.DateTo > empExp1.DateFrom)
+                else if (dateTo2 < dateTo1 && dateTo2 > dateFrom1)
                 {
-                    work.DateFrom = empExp1.DateFrom;
-                    work.DateTo = empExp2.DateTo;
+                    return (dateFrom1, dateTo2);
                 }
             }
 
-            return work;
+            return (DateTime.MinValue, DateTime.MinValue);
         }
     }
 }

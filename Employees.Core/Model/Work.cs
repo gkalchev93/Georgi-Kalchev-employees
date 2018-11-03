@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Employees.Core.Model
 {
@@ -11,8 +7,15 @@ namespace Employees.Core.Model
         public int ProjectId { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime DateTo { get; set; }
+        public int TotalDays
+        {
+            get
+            {
+                return GetDays();
+            }
+        }
 
-        public int GetDays()
+        private int GetDays()
         {
             return (int)(DateTo - DateFrom).TotalDays;
         }

@@ -29,15 +29,15 @@ namespace Employees.ConsoleTest
                 var teamWork = Statistics.GetTeamWorkPeriods(records);
                 foreach(var work in teamWork)
                 {
-                    Console.WriteLine($"Team {work.Key} has work experiance together {work.Value.GetTotalDays()}");
+                    Console.WriteLine($"Team {work.TeamKey} has work experiance together {work.TotalDays}");
 
-                    foreach(var w in work.Value.WorkTogether)
+                    foreach(var w in work.WorkTogether)
                         Console.WriteLine($"\t ProjectId - {w.ProjectId} From: {w.DateFrom.ToShortDateString()} To: {w.DateTo.ToShortDateString()}");
 
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("Max days in team:" + teamWork.Max(x=>x.Value.GetTotalDays()));
+                Console.WriteLine("Max days in team:" + teamWork.Max(x=>x.TotalDays));
             }
 
             Console.ReadLine();

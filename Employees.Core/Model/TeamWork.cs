@@ -7,6 +7,13 @@ namespace Employees.Core.Model
         public int Emp1Id { get; set; }
         public int Emp2Id { get; set; }
         public string TeamKey { get; set; }
+        public int TotalDays
+        {
+            get
+            {
+                return GetTotalDays();
+            }
+        }
         public List<Work> WorkTogether { get; set; }
 
         public TeamWork(int empID1, int empID2)
@@ -26,12 +33,12 @@ namespace Employees.Core.Model
                 return string.Format(template, Emp2Id, Emp1Id);
         }
 
-        public int GetTotalDays()
+        private int GetTotalDays()
         {
             int res = 0;
 
             foreach (Work w in WorkTogether)
-                res += w.GetDays();
+                res += w.TotalDays;
 
             return res;
         }
