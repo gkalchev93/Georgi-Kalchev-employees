@@ -25,7 +25,7 @@ namespace Employees.WinFormApplication
                 {
                     try
                     {
-                        records = LoadModel.EmpExperianceFromLines(File.ReadAllLines(dlg.FileName));
+                        records = LoadModel.ParseEmployeeExp(File.ReadAllLines(dlg.FileName));
                         
                         if (records.Count == 0)
                         {
