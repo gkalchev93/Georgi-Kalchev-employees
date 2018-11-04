@@ -3,6 +3,7 @@ using Employees.Core.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Employees.WinFormApplication
@@ -26,7 +27,7 @@ namespace Employees.WinFormApplication
                     try
                     {
                         records = LoadModel.ParseEmployeeExp(File.ReadAllLines(dlg.FileName));
-                        
+
                         if (records.Count == 0)
                         {
                             MessageBox.Show("The file has 0 records");
@@ -57,6 +58,9 @@ namespace Employees.WinFormApplication
             };
 
             dgTeams.DataSource = source;
+
+            var maxDays = teamWork.OrderBy(x => x.TotalDays).Last();
+            lblMax.Text = $"Team {maxDays.TeamKey} has the longest experiance together {maxDays.TotalDays} days.";
         }
 
         private void dgTeams_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
@@ -64,8 +68,10 @@ namespace Employees.WinFormApplication
             if (e.StateChanged == DataGridViewElementStates.Selected)
             {
                 TeamWork selectedRow = (TeamWork)e.Row.DataBoundItem;
-                periodsSource = new BindingSource();
-                periodsSource.DataSource = selectedRow.WorkTogether;
+                periodsSource = new BindingSource
+                {
+                    DataSource = selectedRow.WorkTogether
+                };
 
                 dgPeriods.DataSource = periodsSource;
             }

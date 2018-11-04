@@ -40,6 +40,7 @@
             this.dgTeams = new System.Windows.Forms.DataGridView();
             this.tbFilename = new System.Windows.Forms.TextBox();
             this.lblFile = new System.Windows.Forms.Label();
+            this.lblMax = new System.Windows.Forms.Label();
             this.pMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPeriods)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTeams)).BeginInit();
@@ -57,6 +58,7 @@
             // 
             // pMain
             // 
+            this.pMain.Controls.Add(this.lblMax);
             this.pMain.Controls.Add(this.dgPeriods);
             this.pMain.Controls.Add(this.tbCount);
             this.pMain.Controls.Add(this.lblCount);
@@ -66,7 +68,7 @@
             this.pMain.Enabled = false;
             this.pMain.Location = new System.Drawing.Point(12, 41);
             this.pMain.Name = "pMain";
-            this.pMain.Size = new System.Drawing.Size(794, 397);
+            this.pMain.Size = new System.Drawing.Size(794, 430);
             this.pMain.TabIndex = 1;
             // 
             // dgPeriods
@@ -168,11 +170,19 @@
             this.lblFile.TabIndex = 0;
             this.lblFile.Text = "Filename:";
             // 
+            // lblMax
+            // 
+            this.lblMax.AutoSize = true;
+            this.lblMax.Location = new System.Drawing.Point(12, 408);
+            this.lblMax.Name = "lblMax";
+            this.lblMax.Size = new System.Drawing.Size(0, 13);
+            this.lblMax.TabIndex = 6;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 450);
+            this.ClientSize = new System.Drawing.Size(881, 483);
             this.Controls.Add(this.pMain);
             this.Controls.Add(this.btnLoad);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -198,6 +208,7 @@
         private System.Windows.Forms.TextBox tbCount;
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.DataGridView dgPeriods;
+        private System.Windows.Forms.Label lblMax;
     }
 }
 
