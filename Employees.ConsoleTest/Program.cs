@@ -24,11 +24,11 @@ namespace Employees.ConsoleTest
                 string[] fileLines = File.ReadAllLines(filePath);
                 if (fileLines.Length > 1)
                 {
-                    List<EmployeeExp> records = LoadModel.ParseEmployeeExp(fileLines);
+                    List<EmployeeExp> records = LoadModel.ParseEmployeeExp(fileLines, ",", null);
                     Console.WriteLine("Records count:" + records.Count);
                     Console.WriteLine();
 
-                    if(records.Count > 0)
+                    if (records.Count > 0)
                     {
                         List<TeamWork> teamWorkExp = Statistics.GetTeamWorkPeriods(records);
                         foreach (TeamWork work in teamWorkExp)
@@ -41,7 +41,7 @@ namespace Employees.ConsoleTest
                             Console.WriteLine();
                         }
 
-                        var maxDays = teamWorkExp.OrderBy(x => x.TotalDays).Last();
+                        TeamWork maxDays = teamWorkExp.OrderBy(x => x.TotalDays).Last();
                         Console.WriteLine($"Team {maxDays.TeamKey} has the longest experiance together {maxDays.TotalDays} days.");
                     }
                 }

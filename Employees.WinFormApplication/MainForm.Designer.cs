@@ -34,13 +34,17 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnLoad = new System.Windows.Forms.Button();
             this.pMain = new System.Windows.Forms.Panel();
+            this.lblMax = new System.Windows.Forms.Label();
             this.dgPeriods = new System.Windows.Forms.DataGridView();
             this.tbCount = new System.Windows.Forms.TextBox();
             this.lblCount = new System.Windows.Forms.Label();
             this.dgTeams = new System.Windows.Forms.DataGridView();
             this.tbFilename = new System.Windows.Forms.TextBox();
             this.lblFile = new System.Windows.Forms.Label();
-            this.lblMax = new System.Windows.Forms.Label();
+            this.cbDateFormat = new System.Windows.Forms.CheckBox();
+            this.tbDateFormat = new System.Windows.Forms.TextBox();
+            this.tbDelimiter = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.pMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgPeriods)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTeams)).BeginInit();
@@ -48,7 +52,7 @@
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(12, 12);
+            this.btnLoad.Location = new System.Drawing.Point(12, 59);
             this.btnLoad.Name = "btnLoad";
             this.btnLoad.Size = new System.Drawing.Size(75, 23);
             this.btnLoad.TabIndex = 0;
@@ -66,10 +70,18 @@
             this.pMain.Controls.Add(this.tbFilename);
             this.pMain.Controls.Add(this.lblFile);
             this.pMain.Enabled = false;
-            this.pMain.Location = new System.Drawing.Point(12, 41);
+            this.pMain.Location = new System.Drawing.Point(12, 87);
             this.pMain.Name = "pMain";
             this.pMain.Size = new System.Drawing.Size(794, 430);
             this.pMain.TabIndex = 1;
+            // 
+            // lblMax
+            // 
+            this.lblMax.AutoSize = true;
+            this.lblMax.Location = new System.Drawing.Point(12, 408);
+            this.lblMax.Name = "lblMax";
+            this.lblMax.Size = new System.Drawing.Size(0, 13);
+            this.lblMax.TabIndex = 6;
             // 
             // dgPeriods
             // 
@@ -170,19 +182,53 @@
             this.lblFile.TabIndex = 0;
             this.lblFile.Text = "Filename:";
             // 
-            // lblMax
+            // cbDateFormat
             // 
-            this.lblMax.AutoSize = true;
-            this.lblMax.Location = new System.Drawing.Point(12, 408);
-            this.lblMax.Name = "lblMax";
-            this.lblMax.Size = new System.Drawing.Size(0, 13);
-            this.lblMax.TabIndex = 6;
+            this.cbDateFormat.AutoSize = true;
+            this.cbDateFormat.Location = new System.Drawing.Point(16, 36);
+            this.cbDateFormat.Name = "cbDateFormat";
+            this.cbDateFormat.Size = new System.Drawing.Size(122, 17);
+            this.cbDateFormat.TabIndex = 2;
+            this.cbDateFormat.Text = "Custom Date Format";
+            this.cbDateFormat.UseVisualStyleBackColor = true;
+            this.cbDateFormat.CheckedChanged += new System.EventHandler(this.cbDateFormat_CheckedChanged);
+            // 
+            // tbDateFormat
+            // 
+            this.tbDateFormat.Enabled = false;
+            this.tbDateFormat.Location = new System.Drawing.Point(144, 34);
+            this.tbDateFormat.Name = "tbDateFormat";
+            this.tbDateFormat.Size = new System.Drawing.Size(145, 20);
+            this.tbDateFormat.TabIndex = 3;
+            // 
+            // tbDelimiter
+            // 
+            this.tbDelimiter.Enabled = false;
+            this.tbDelimiter.Location = new System.Drawing.Point(144, 7);
+            this.tbDelimiter.Name = "tbDelimiter";
+            this.tbDelimiter.Size = new System.Drawing.Size(145, 20);
+            this.tbDelimiter.TabIndex = 5;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(16, 9);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(104, 17);
+            this.checkBox1.TabIndex = 4;
+            this.checkBox1.Text = "Custom Delimiter";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(881, 483);
+            this.ClientSize = new System.Drawing.Size(817, 528);
+            this.Controls.Add(this.tbDelimiter);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.tbDateFormat);
+            this.Controls.Add(this.cbDateFormat);
             this.Controls.Add(this.pMain);
             this.Controls.Add(this.btnLoad);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -195,6 +241,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgPeriods)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTeams)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -209,6 +256,10 @@
         private System.Windows.Forms.Label lblCount;
         private System.Windows.Forms.DataGridView dgPeriods;
         private System.Windows.Forms.Label lblMax;
+        private System.Windows.Forms.CheckBox cbDateFormat;
+        private System.Windows.Forms.TextBox tbDateFormat;
+        private System.Windows.Forms.TextBox tbDelimiter;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
 

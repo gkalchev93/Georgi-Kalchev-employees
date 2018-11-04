@@ -5,13 +5,13 @@ namespace Employees.Core.Utils
 {
     public static class Extensions
     {
-        public static DateTime ToDate(this string obj)
+        public static DateTime ToDate(this string obj, string format)
         {
             DateTime date;
 
-            if(obj.Trim().ToLowerInvariant() != "null")
+            if (obj.Trim().ToLowerInvariant() != "null")
             {
-                try
+                if (string.IsNullOrEmpty(format))
                 {
                     if (!DateTime.TryParse(obj, out date))
                     {
@@ -26,28 +26,14 @@ namespace Employees.Core.Utils
                         }
                     }
                 }
-                catch
+                else
                 {
-                    throw;
+                    date = DateTime.ParseExact(obj, format, CultureInfo.InvariantCulture);
                 }
             }
             else
             {
                 date = DateTime.Now;
-            }
-            
-            return date;
-        }
-
-        private static DateTime ToDateExact(string obj)
-        {
-            CultureInfo usCulture = new CultureInfo("en-US");
-            CultureInfo ukCulture = new CultureInfo("en-GB");
-
-            if (!DateTime.TryParse(obj, usCulture, DateTimeStyles.None, out DateTime date)
-                || !DateTime.TryParse(obj, ukCulture, DateTimeStyles.None, out date))
-            {
-                throw new Exception($"Failed to parse date - {obj}");
             }
 
             return date;

@@ -26,11 +26,11 @@ namespace Employees.WinFormApplication
                 {
                     try
                     {
-                        records = LoadModel.ParseEmployeeExp(File.ReadAllLines(dlg.FileName));
+                        records = LoadModel.ParseEmployeeExp(File.ReadAllLines(dlg.FileName), tbDelimiter.Text, tbDateFormat.Text);
 
-                        if (records.Count == 0)
+                        if (records.Count < 2)
                         {
-                            MessageBox.Show("The file has 0 records");
+                            MessageBox.Show("The file has not enoough records");
                         }
                         else
                         {
@@ -59,7 +59,7 @@ namespace Employees.WinFormApplication
 
             dgTeams.DataSource = source;
 
-            var maxDays = teamWork.OrderBy(x => x.TotalDays).Last();
+            TeamWork maxDays = teamWork.OrderBy(x => x.TotalDays).Last();
             lblMax.Text = $"Team {maxDays.TeamKey} has the longest experiance together {maxDays.TotalDays} days.";
         }
 
@@ -74,6 +74,35 @@ namespace Employees.WinFormApplication
                 };
 
                 dgPeriods.DataSource = periodsSource;
+            }
+        }
+
+        private void cbDateFormat_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb.Checked)
+            {
+                tbDateFormat.Enabled = true;
+            }
+            else
+            {
+                tbDateFormat.Enabled = false;
+                tbDateFormat.Text = string.Empty;
+
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+            if (cb.Checked)
+            {
+                tbDelimiter.Enabled = true;
+            }
+            else
+            {
+                tbDelimiter.Enabled = false;
+                tbDelimiter.Text = string.Empty;
             }
         }
     }
